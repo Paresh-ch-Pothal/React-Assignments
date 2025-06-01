@@ -30,6 +30,17 @@ export default function LinguaFlowTranslator() {
     }
   }
 
+  const SetLanguages = [
+    { code: "en", name: "English" },
+    { code: "hi", name: "Hindi" },
+    { code: "es", name: "Spanish" },
+    { code: "fr", name: "French" },
+    { code: "de", name: "German" },
+    { code: "ta", name: "Tamil" },
+    { code: "te", name: "Telugu" },
+    { code: "bn", name: "Bengali" }
+  ]
+
   useEffect(() => {
     getLanguages()
   }, [])
@@ -44,14 +55,15 @@ export default function LinguaFlowTranslator() {
     setTranslatedText("");
 
     try {
-      const res = await axios.post('http://localhost:3001/api/translate', {
-        text: text,
-        fromLanguage: sourceLang,
-        toLanguage: targetLang
+      const res = await axios.get('https://api.mymemory.translated.net/get', {
+        params : {
+          q: text,
+          langpair: `${sourceLang}|${targetLang}`
+        }
       });
 
-      // console.log(res)
-      setTranslatedText(res.data.translated.translation);
+      console.log(res)
+      setTranslatedText(res.data.responseData.translatedText);
     } catch (err) {
       console.error('Translation error:', err);
       setTranslatedText("Translation failed. Please try again.");
@@ -123,7 +135,7 @@ export default function LinguaFlowTranslator() {
               value={sourceLang}
               onChange={(e) => setSourceLang(e.target.value)}
             >
-              {languages.map(({ code, name }) => (
+              {SetLanguages.map(({ code, name }) => (
                 <option key={code} value={code} className="bg-slate-800">
                   {name}
                 </option>
@@ -152,7 +164,7 @@ export default function LinguaFlowTranslator() {
               value={targetLang}
               onChange={(e) => setTargetLang(e.target.value)}
             >
-              {languages.map(({ code, name }) => (
+              {SetLanguages.map(({ code, name }) => (
                 <option key={code} value={code} className="bg-slate-800">
                   {name}
                 </option>
