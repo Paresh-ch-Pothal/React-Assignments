@@ -13,23 +13,6 @@ export default function LinguaFlowTranslator() {
   const [isLoading, setIsLoading] = useState(false);
   const [languages, setLanguages] = useState([])
 
-
-  const getLanguages = async () => {
-    try {
-      const res = await axios.get('http://localhost:3001/api/getLanguages');
-      const formattedLanguages = Object.entries(res.data.languages).map(
-        ([code, name]) => ({
-          code,
-          name
-        })
-      );
-      setLanguages(formattedLanguages)
-      // console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const SetLanguages = [
     { code: "en", name: "English" },
     { code: "hi", name: "Hindi" },
@@ -41,9 +24,6 @@ export default function LinguaFlowTranslator() {
     { code: "bn", name: "Bengali" }
   ]
 
-  useEffect(() => {
-    getLanguages()
-  }, [])
 
   const handleTranslate = async () => {
     if (!text.trim()) {

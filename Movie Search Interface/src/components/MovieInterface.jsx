@@ -34,7 +34,7 @@ export default function MovieInterface() {
 
                 // console.log(response.data);
 
-                if (response.data && response.data) {
+                if (response.data) {
                     setSuggestions(response.data);
                 } else {
                     setSuggestions([]);
@@ -46,6 +46,8 @@ export default function MovieInterface() {
             setLoading(false);
         };
 
+
+        //used basically for : - To avoid calling an API on every keystroke, which improves performance and user experience.
         const debounceTimer = setTimeout(fetchSuggestions, 500);
         return () => clearTimeout(debounceTimer);
 
